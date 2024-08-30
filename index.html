@@ -8,133 +8,112 @@
         body {
             margin: 0;
             padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
             font-family: Arial, sans-serif;
-            overflow: hidden;
         }
+
         #container {
+            position: relative;
             width: 800px;
             height: 600px;
-            position: relative;
         }
-        .hidden {
-            display: none;
-        }
-        .image {
+
+        #login-screen, #more-skins {
             position: absolute;
-        }
-        #login-label {
+            width: 100%;
+            height: 100%;
             top: 0;
             left: 0;
         }
-        #login-avatar {
+
+        #login-photo, #login2-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar {
+            position: absolute;
             top: 50px;
             left: 50px;
+            width: 100px;
+            height: 100px;
         }
-        /* Button styles */
-        .button {
+
+        .character-btn {
             position: absolute;
+            background-color: transparent;
             border: none;
-            background: transparent;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.5);
         }
-        .button img {
-            display: block;
+
+        #def-steve-btn { top: 200px; left: 50px; }
+        #def-alex-btn { top: 250px; left: 50px; }
+        #herobrine-btn { top: 300px; left: 50px; }
+        #noob-btn { top: 350px; left: 50px; }
+        #more-skins-btn { top: 400px; left: 50px; }
+        #discord-btn { top: 450px; left: 50px; }
+
+        #more-skins-done-btn {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
         }
-        .button:hover img {
-            opacity: 0.7;
+
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
     <div id="container">
-        <img id="login-label" class="image" src="assets/login.png" alt="Login Screen">
-        <img id="login-avatar" class="image" src="assets/def_steve.png" alt="Avatar">
-
-        <!-- Buttons -->
-        <button id="def-steve-option" class="button" style="top: 340px; left: 350px;" onclick="chooseCharacter('def_steve')">
-            <img src="assets/options/def_steve_option.png" alt="Def Steve Option">
-        </button>
-        <button id="def-alex-option" class="button" style="top: 370px; left: 350px;" onclick="chooseCharacter('def_alex')">
-            <img src="assets/options/def_alex_option.png" alt="Def Alex Option">
-        </button>
-        <button id="herobrine-option" class="button" style="top: 400px; left: 350px;" onclick="chooseCharacter('herobrine')">
-            <img src="assets/options/herobrine_option.png" alt="Herobrine Option">
-        </button>
-        <button id="noob-option" class="button" style="top: 430px; left: 350px;" onclick="chooseCharacter('noob')">
-            <img src="assets/options/noob_option.png" alt="Noob Option">
-        </button>
-        <button id="more-skins-option" class="button" style="top: 460px; left: 350px;" onclick="moreSkins()">
-            <img src="assets/options/more_skins_option.png" alt="More Skins Option">
-        </button>
-        <button id="done-button" class="button" style="top: 550px; left: 50px;" onclick="done()">
-            <img src="assets/buttons/done.png" alt="Done">
-        </button>
-        <button id="discord-button" class="button" style="top: 520px; left: 700px;" onclick="openDiscord()">
-            <img src="assets/discord.png" alt="Discord">
-        </button>
-        <button id="pets-button" class="button" style="top: 540px; left: 400px;">
-            <img src="assets/buttons/pets.png" alt="Pets">
-        </button>
-        <button id="klock-options-button" class="button" style="top: 290px; left: 350px;" onclick="toggleOptions()">
-            <img src="assets/dropdown_def_steve.png" alt="Klock Options">
-        </button>
+        <div id="login-screen">
+            <img id="login-photo" src="assets/login.png" alt="Login">
+            <img id="login-avatar" src="assets/def_steve.png" alt="Avatar" class="avatar">
+            <button id="def-steve-btn" class="character-btn" onclick="chooseCharacter('def_steve')">Steve</button>
+            <button id="def-alex-btn" class="character-btn" onclick="chooseCharacter('def_alex')">Alex</button>
+            <button id="herobrine-btn" class="character-btn" onclick="chooseCharacter('herobrine')">Herobrine</button>
+            <button id="noob-btn" class="character-btn" onclick="chooseCharacter('noob')">Noob</button>
+            <button id="more-skins-btn" class="character-btn" onclick="showMoreSkins()">More Skins</button>
+            <button id="discord-btn" class="character-btn" onclick="openDiscord()">Open Discord</button>
+        </div>
+        <div id="more-skins" class="hidden">
+            <img id="login2-photo" src="assets/login2.png" alt="More Skins">
+            <img id="login-avatar2" src="assets/def_steve.png" alt="Avatar" class="avatar">
+            <button id="more-skins-done-btn" class="character-btn" onclick="returnToLogin()">Done</button>
+        </div>
     </div>
-
     <script>
         let chosenCharacter = 'def_steve';
 
-        function chooseCharacter(character) {
-            chosenCharacter = character;
-            const avatar = document.getElementById('login-avatar');
-            switch (character) {
-                case 'def_steve':
-                    avatar.src = 'assets/def_steve.png';
-                    break;
-                case 'def_alex':
-                    avatar.src = 'assets/def_alex.png';
-                    break;
-                case 'herobrine':
-                    avatar.src = 'assets/herobrine.png';
-                    break;
-                case 'noob':
-                    avatar.src = 'assets/noob.png';
-                    break;
-            }
+        function chooseCharacter(char) {
+            chosenCharacter = char;
+            document.getElementById('login-avatar').src = `assets/${char}.png`;
+            // Update dropdown or other UI elements here
         }
 
-        function moreSkins() {
-            document.getElementById('login-label').classList.add('hidden');
-            document.getElementById('login-avatar').classList.add('hidden');
-
-            // Handle more skins screen
-            // This would be more complex in reality
+        function showMoreSkins() {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('more-skins').classList.remove('hidden');
+            document.getElementById('login-avatar2').src = `assets/${chosenCharacter}.png`;
         }
 
-        function done() {
-            // Handle done functionality
-            alert('Done');
+        function returnToLogin() {
+            document.getElementById('more-skins').classList.add('hidden');
+            document.getElementById('login-screen').classList.remove('hidden');
         }
 
         function openDiscord() {
-            window.open('https://discord.com', '_blank');
-        }
-
-        function toggleOptions() {
-            // Toggle the visibility of options
-            let options = [
-                'def-steve-option',
-                'def-alex-option',
-                'herobrine-option',
-                'noob-option',
-                'more-skins-option'
-            ];
-            options.forEach(optionId => {
-                let option = document.getElementById(optionId);
-                if (option.style.display === 'none') {
-                    option.style.display = 'block';
-                } else {
-                    option.style.display = 'none';
-                }
-            });
+            window.open('https://discord.com');
         }
     </script>
 </body>
