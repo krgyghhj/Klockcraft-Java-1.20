@@ -9,180 +9,133 @@
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
-        }
-        .container {
-            position: relative;
-            width: 800px;
-            height: 600px;
-            margin: auto;
             overflow: hidden;
         }
-        .background, .login-avatar, .entry-bar, .dropdown {
-            position: absolute;
-            background-size: cover;
-        }
-        .background {
-            width: 100%;
-            height: 100%;
-            background-image: url('assets/login.png');
-        }
-        .login-avatar {
-            width: 100px;
-            height: 100px;
-            top: 50px;
-            left: 50px;
-            background-image: url('assets/def_steve.png');
-        }
-        .entry-bar {
-            width: 200px;
-            height: 30px;
-            top: 160px;
-            left: 350px;
-            background-image: url('assets/entry_bar.png');
-        }
-        .dropdown {
-            width: 200px;
-            height: 30px;
-            top: 290px;
-            left: 350px;
-            background-image: url('assets/dropdown_def_steve.png');
-        }
-        .button {
-            position: absolute;
-            width: 100px;
-            height: 50px;
-            background-size: cover;
-            border: none;
-            cursor: pointer;
-        }
-        .button:hover {
-            opacity: 0.8;
+        #container {
+            width: 800px;
+            height: 600px;
+            position: relative;
         }
         .hidden {
             display: none;
         }
-        .button-container {
-            display: flex;
-            flex-direction: column;
+        .image {
+            position: absolute;
+        }
+        #login-label {
+            top: 0;
+            left: 0;
+        }
+        #login-avatar {
+            top: 50px;
+            left: 50px;
+        }
+        /* Button styles */
+        .button {
+            position: absolute;
+            border: none;
+            background: transparent;
+        }
+        .button img {
+            display: block;
+        }
+        .button:hover img {
+            opacity: 0.7;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="background"></div>
-        <div id="login-avatar" class="login-avatar"></div>
-        <div id="entry-bar" class="entry-bar"></div>
-        <div id="dropdown" class="dropdown"></div>
+    <div id="container">
+        <img id="login-label" class="image" src="login.png" alt="Login Screen">
+        <img id="login-avatar" class="image" src="def_steve.png" alt="Avatar">
 
-        <!-- Character Option Buttons -->
-        <button id="def-steve-btn" class="button" style="top: 340px; left: 350px; background-image: url('assets/options/def_steve_option.png');"></button>
-        <button id="def-alex-btn" class="button" style="top: 370px; left: 350px; background-image: url('assets/options/def_alex_option.png');"></button>
-        <button id="herobrine-btn" class="button" style="top: 400px; left: 350px; background-image: url('assets/options/herobrine_option.png');"></button>
-        <button id="noob-btn" class="button" style="top: 430px; left: 350px; background-image: url('assets/options/noob_option.png');"></button>
-        <button id="more-skins-btn" class="button" style="top: 460px; left: 350px; background-image: url('assets/options/more_skins_option.png');"></button>
-
-        <!-- Action Buttons -->
-        <button id="done-btn" class="button" style="top: 550px; left: 50px; background-image: url('assets/buttons/done.png');"></button>
-        <button id="discord-btn" class="button" style="top: 520px; left: 700px; background-image: url('assets/discord.png');"></button>
-        <button id="pets-btn" class="button" style="top: 540px; left: 400px; background-image: url('assets/buttons/pets.png');"></button>
-
-        <!-- More Skins Screen -->
-        <div id="more-skins-screen" class="hidden">
-            <div class="login-label"></div>
-            <div id="more-skins-avatar" class="login-avatar"></div>
-            <button id="more-skins-done-btn" class="button" style="top: 550px; left: 300px; background-image: url('assets/buttons/done.png');"></button>
-        </div>
+        <!-- Buttons -->
+        <button id="def-steve-option" class="button" style="top: 340px; left: 350px;" onclick="chooseCharacter('def_steve')">
+            <img src="def_steve_option.png" alt="Def Steve Option">
+        </button>
+        <button id="def-alex-option" class="button" style="top: 370px; left: 350px;" onclick="chooseCharacter('def_alex')">
+            <img src="def_alex_option.png" alt="Def Alex Option">
+        </button>
+        <button id="herobrine-option" class="button" style="top: 400px; left: 350px;" onclick="chooseCharacter('herobrine')">
+            <img src="herobrine_option.png" alt="Herobrine Option">
+        </button>
+        <button id="noob-option" class="button" style="top: 430px; left: 350px;" onclick="chooseCharacter('noob')">
+            <img src="noob_option.png" alt="Noob Option">
+        </button>
+        <button id="more-skins-option" class="button" style="top: 460px; left: 350px;" onclick="moreSkins()">
+            <img src="more_skins_option.png" alt="More Skins Option">
+        </button>
+        <button id="done-button" class="button" style="top: 550px; left: 50px;" onclick="done()">
+            <img src="done.png" alt="Done">
+        </button>
+        <button id="discord-button" class="button" style="top: 520px; left: 700px;" onclick="openDiscord()">
+            <img src="discord.png" alt="Discord">
+        </button>
+        <button id="pets-button" class="button" style="top: 540px; left: 400px;">
+            <img src="pets.png" alt="Pets">
+        </button>
+        <button id="klock-options-button" class="button" style="top: 290px; left: 350px;" onclick="toggleOptions()">
+            <img src="dropdown_def_steve.png" alt="Klock Options">
+        </button>
     </div>
 
     <script>
-        // Images
-        const images = {
-            defSteve: 'assets/def_steve.png',
-            defAlex: 'assets/def_alex.png',
-            herobrine: 'assets/herobrine.png',
-            noob: 'assets/noob.png',
-        };
+        let chosenCharacter = 'def_steve';
 
-        const dropdownImages = {
-            defSteve: 'assets/dropdown_def_steve.png',
-            defAlex: 'assets/dropdown_def_alex.png',
-            herobrine: 'assets/dropdown_herobrine.png',
-            noob: 'assets/dropdown_noob.png',
-        };
-
-        const loginAvatar = document.getElementById('login-avatar');
-        const dropdown = document.getElementById('dropdown');
-        const moreSkinsScreen = document.getElementById('more-skins-screen');
-        const moreSkinsAvatar = document.getElementById('more-skins-avatar');
-
-        const buttons = {
-            defSteveBtn: document.getElementById('def-steve-btn'),
-            defAlexBtn: document.getElementById('def-alex-btn'),
-            herobrineBtn: document.getElementById('herobrine-btn'),
-            noobBtn: document.getElementById('noob-btn'),
-            moreSkinsBtn: document.getElementById('more-skins-btn'),
-            doneBtn: document.getElementById('done-btn'),
-            discordBtn: document.getElementById('discord-btn'),
-            petsBtn: document.getElementById('pets-btn'),
-            moreSkinsDoneBtn: document.getElementById('more-skins-done-btn'),
-        };
-
-        function setLoginAvatar(image) {
-            loginAvatar.style.backgroundImage = `url(${image})`;
+        function chooseCharacter(character) {
+            chosenCharacter = character;
+            const avatar = document.getElementById('login-avatar');
+            switch (character) {
+                case 'def_steve':
+                    avatar.src = 'def_steve.png';
+                    break;
+                case 'def_alex':
+                    avatar.src = 'def_alex.png';
+                    break;
+                case 'herobrine':
+                    avatar.src = 'herobrine.png';
+                    break;
+                case 'noob':
+                    avatar.src = 'noob.png';
+                    break;
+            }
         }
 
-        function setDropdown(image) {
-            dropdown.style.backgroundImage = `url(${image})`;
+        function moreSkins() {
+            document.getElementById('login-label').classList.add('hidden');
+            document.getElementById('login-avatar').classList.add('hidden');
+
+            // Handle more skins screen
+            // This would be more complex in reality
         }
 
-        function showMoreSkinsScreen(characterImage) {
-            moreSkinsScreen.classList.remove('hidden');
-            moreSkinsAvatar.style.backgroundImage = `url(${characterImage})`;
+        function done() {
+            // Handle done functionality
+            alert('Done');
         }
 
-        function hideMoreSkinsScreen() {
-            moreSkinsScreen.classList.add('hidden');
+        function openDiscord() {
+            window.open('https://discord.com', '_blank');
         }
 
-        buttons.defSteveBtn.addEventListener('click', () => {
-            setLoginAvatar(images.defSteve);
-            setDropdown(dropdownImages.defSteve);
-        });
-
-        buttons.defAlexBtn.addEventListener('click', () => {
-            setLoginAvatar(images.defAlex);
-            setDropdown(dropdownImages.defAlex);
-        });
-
-        buttons.herobrineBtn.addEventListener('click', () => {
-            setLoginAvatar(images.herobrine);
-            setDropdown(dropdownImages.herobrine);
-        });
-
-        buttons.noobBtn.addEventListener('click', () => {
-            setLoginAvatar(images.noob);
-            setDropdown(dropdownImages.noob);
-        });
-
-        buttons.moreSkinsBtn.addEventListener('click', () => {
-            showMoreSkinsScreen(images.defSteve); // Default to def_steve in more skins screen
-        });
-
-        buttons.moreSkinsDoneBtn.addEventListener('click', () => {
-            hideMoreSkinsScreen();
-        });
-
-        buttons.doneBtn.addEventListener('click', () => {
-            alert('Done functionality not implemented.');
-        });
-
-        buttons.discordBtn.addEventListener('click', () => {
-            window.open('https://discord.com');
-        });
-
-        buttons.petsBtn.addEventListener('click', () => {
-            alert('Pets functionality not implemented.');
-        });
+        function toggleOptions() {
+            // Toggle the visibility of options
+            let options = [
+                'def-steve-option',
+                'def-alex-option',
+                'herobrine-option',
+                'noob-option',
+                'more-skins-option'
+            ];
+            options.forEach(optionId => {
+                let option = document.getElementById(optionId);
+                if (option.style.display === 'none') {
+                    option.style.display = 'block';
+                } else {
+                    option.style.display = 'none';
+                }
+            });
+        }
     </script>
 </body>
 </html>
