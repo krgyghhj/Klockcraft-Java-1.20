@@ -6,115 +6,139 @@
     <title>Klockcraft 1.20</title>
     <style>
         body {
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            overflow: hidden;
             background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
         }
-
-        #container {
+        .container {
             position: relative;
             width: 800px;
             height: 600px;
+            margin: auto;
+            overflow: hidden;
         }
-
-        #login-screen, #more-skins {
+        .login-label, .login-avatar, .button, .entry-bar, .dropdown {
             position: absolute;
-            width: 100%;
-            height: 100%;
+            background-size: cover;
+        }
+        .login-label {
             top: 0;
             left: 0;
+            width: 800px;
+            height: 600px;
+            background-image: url('assets/login.png');
         }
-
-        #login-photo, #login2-photo {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .avatar {
-            position: absolute;
+        .login-avatar {
             top: 50px;
             left: 50px;
             width: 100px;
             height: 100px;
+            background-image: url('assets/def_steve.png');
         }
-
-        .character-btn {
-            position: absolute;
-            background-color: transparent;
-            border: none;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            padding: 10px;
-            border-radius: 5px;
-            background: rgba(0, 0, 0, 0.5);
+        .button {
+            width: 100px;
+            height: 50px;
+            background-size: cover;
         }
-
-        #def-steve-btn { top: 200px; left: 50px; }
-        #def-alex-btn { top: 250px; left: 50px; }
-        #herobrine-btn { top: 300px; left: 50px; }
-        #noob-btn { top: 350px; left: 50px; }
-        #more-skins-btn { top: 400px; left: 50px; }
-        #discord-btn { top: 450px; left: 50px; }
-
-        #more-skins-done-btn {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
+        .entry-bar {
+            top: 160px;
+            left: 350px;
+            width: 200px;
+            height: 30px;
+            background-image: url('assets/entry_bar.png');
         }
-
+        .dropdown {
+            top: 290px;
+            left: 350px;
+            width: 200px;
+            height: 30px;
+            background-image: url('assets/dropdown_def_steve.png');
+        }
         .hidden {
             display: none;
         }
     </style>
 </head>
 <body>
-    <div id="container">
-        <div id="login-screen">
-            <img id="login-photo" src="assets/login.png" alt="Login">
-            <img id="login-avatar" src="assets/def_steve.png" alt="Avatar" class="avatar">
-            <button id="def-steve-btn" class="character-btn" onclick="chooseCharacter('def_steve')">Steve</button>
-            <button id="def-alex-btn" class="character-btn" onclick="chooseCharacter('def_alex')">Alex</button>
-            <button id="herobrine-btn" class="character-btn" onclick="chooseCharacter('herobrine')">Herobrine</button>
-            <button id="noob-btn" class="character-btn" onclick="chooseCharacter('noob')">Noob</button>
-            <button id="more-skins-btn" class="character-btn" onclick="showMoreSkins()">More Skins</button>
-            <button id="discord-btn" class="character-btn" onclick="openDiscord()">Open Discord</button>
-        </div>
-        <div id="more-skins" class="hidden">
-            <img id="login2-photo" src="assets/login2.png" alt="More Skins">
-            <img id="login-avatar2" src="assets/def_steve.png" alt="Avatar" class="avatar">
-            <button id="more-skins-done-btn" class="character-btn" onclick="returnToLogin()">Done</button>
-        </div>
+    <div class="container">
+        <div class="login-label"></div>
+        <div class="login-avatar"></div>
+        <div id="entry-bar" class="entry-bar"></div>
+        <div id="dropdown" class="dropdown"></div>
+        <button id="def-steve-btn" class="button" style="top: 340px; left: 350px; background-image: url('assets/options/def_steve_option.png');"></button>
+        <button id="def-alex-btn" class="button" style="top: 370px; left: 350px; background-image: url('assets/options/def_alex_option.png');"></button>
+        <button id="herobrine-btn" class="button" style="top: 400px; left: 350px; background-image: url('assets/options/herobrine_option.png');"></button>
+        <button id="noob-btn" class="button" style="top: 430px; left: 350px; background-image: url('assets/options/noob_option.png');"></button>
+        <button id="more-skins-btn" class="button" style="top: 460px; left: 350px; background-image: url('assets/options/more_skins_option.png');"></button>
+        <button id="done-btn" class="button" style="top: 550px; left: 50px; background-image: url('assets/buttons/done.png');"></button>
+        <button id="discord-btn" class="button" style="top: 520px; left: 700px; background-image: url('assets/discord.png');"></button>
+        <button id="pets-btn" class="button" style="top: 540px; left: 400px; background-image: url('assets/buttons/pets.png');"></button>
     </div>
+
     <script>
-        let chosenCharacter = 'def_steve';
+        const loginAvatar = document.querySelector('.login-avatar');
+        const dropdown = document.querySelector('#dropdown');
+        const defSteveBtn = document.querySelector('#def-steve-btn');
+        const defAlexBtn = document.querySelector('#def-alex-btn');
+        const herobrineBtn = document.querySelector('#herobrine-btn');
+        const noobBtn = document.querySelector('#noob-btn');
+        const moreSkinsBtn = document.querySelector('#more-skins-btn');
+        const doneBtn = document.querySelector('#done-btn');
+        const discordBtn = document.querySelector('#discord-btn');
+        const petsBtn = document.querySelector('#pets-btn');
+        
+        const images = {
+            defSteve: 'assets/def_steve.png',
+            defAlex: 'assets/def_alex.png',
+            herobrine: 'assets/herobrine.png',
+            noob: 'assets/noob.png',
+        };
 
-        function chooseCharacter(char) {
-            chosenCharacter = char;
-            document.getElementById('login-avatar').src = `assets/${char}.png`;
-            // Update dropdown or other UI elements here
+        function setLoginAvatar(image) {
+            loginAvatar.style.backgroundImage = `url(${image})`;
         }
 
-        function showMoreSkins() {
-            document.getElementById('login-screen').classList.add('hidden');
-            document.getElementById('more-skins').classList.remove('hidden');
-            document.getElementById('login-avatar2').src = `assets/${chosenCharacter}.png`;
+        function setDropdown(image) {
+            dropdown.style.backgroundImage = `url(${image})`;
         }
 
-        function returnToLogin() {
-            document.getElementById('more-skins').classList.add('hidden');
-            document.getElementById('login-screen').classList.remove('hidden');
-        }
+        defSteveBtn.addEventListener('click', () => {
+            setLoginAvatar(images.defSteve);
+            setDropdown('assets/dropdown_def_steve.png');
+        });
 
-        function openDiscord() {
+        defAlexBtn.addEventListener('click', () => {
+            setLoginAvatar(images.defAlex);
+            setDropdown('assets/dropdown_def_alex.png');
+        });
+
+        herobrineBtn.addEventListener('click', () => {
+            setLoginAvatar(images.herobrine);
+            setDropdown('assets/dropdown_herobrine.png');
+        });
+
+        noobBtn.addEventListener('click', () => {
+            setLoginAvatar(images.noob);
+            setDropdown('assets/dropdown_noob.png');
+        });
+
+        moreSkinsBtn.addEventListener('click', () => {
+            alert('More skins functionality not implemented.');
+        });
+
+        doneBtn.addEventListener('click', () => {
+            alert('Done functionality not implemented.');
+        });
+
+        discordBtn.addEventListener('click', () => {
             window.open('https://discord.com');
-        }
+        });
+
+        petsBtn.addEventListener('click', () => {
+            
+        });
     </script>
 </body>
 </html>
